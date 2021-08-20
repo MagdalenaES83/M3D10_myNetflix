@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+
+    <title>Back Office</title>
+
+    <style>
+      body {
+        background-color: #141414;
+        color: rgb(148, 145, 145);
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+      input#name.form-control {
+        background-color: rgb(177, 173, 169);
+      }
+      #homepage{
+        padding: 0ex;
+        color: rgb(180, 176, 176);
+        margin: 0cm;
+       font-size: 20px;
+       margin-top: 13px;
+        
+      }
+      #homepage:hover{
+        color: rgb(210, 30, 30);
+        font-size: 22px;
+      }
+        
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <nav class="navbar navbar-expand-lg navbar-dark font-weight-bold pl-1">
+        <a class="navbar-brand" href="/"
+          ><img
+            src="./assets/netflix_logo.png"
+            alt="netflix logo"
+            width="100"
+            class='ml-3' 
+                  /></a>  
+            <li class="nav-item">
+              <a class="nav-link mb-5" id='homepage'  href="./index.html">HomePage</a>
+            </li>               
+    </div>
+
+
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8" id='title'>
+          <h2  class="mb-3">Add the movie</h2>
+          <h5  class="d-inline-block"></h5>
+
+          <form onsubmit="XXXX(yyyyyy)">
+            <div class="form-group">
+              <label >Movie title</label>
+              <input placeholder="Title" id="nameMovie" type="text" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label >Description</label>
+              <textarea
+                id="description"
+                type="text"
+                rows="3"
+                class="form-control"
+                required
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label >Category</label>
+              <input id="category" type="text" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+              <label >Link to picture</label>
+              <input id="imgURL" type="text" class="form-control" required />
+            </div>
+            <div class="d-flex justify-content-between" id='delete'>
+
+
+          
+              <button
+                type="submit"
+                class="btn btn-danger"
+                onclick="postProduct(event)"
+                value="submit"
+                
+              >
+                <span>Add movie</span>
+                <div
+                  id="spinner"
+                  class="spinner-border spinner-border-sm text-light d-none"
+                  role="status"
+                  
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
+              
+            
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+<div class="container" id="output"></div>
+<hr>
+
+
+    <script >
+     
+// we are saving and adding the value from each input
+function getProducts(){
+    let product = {
+        name: document.getElementById('nameMovie').value,
+        description: document.getElementById('description').value,
+        category: document.getElementById('category').value,
+        imageUrl: document.getElementById('imgURL').value,
+        
+    }
+    //translating into json format
+    let productAsAString = JSON.stringify(product)
+    return productAsAString
+}
+
+async function postProduct(e){
+    try{
+
+        e.preventDefault() //we need it to avoid the auto-refreshing
+        let product = getProducts()
+        let serverRes = await fetch("https://striveschool-api.herokuapp.com/api/movies/", {
+            method: "POST",
+            body: product,
+            headers: {
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGRjNmQyM2IzNTgxNzAwMTVjMjI3NTEiLCJpYXQiOjE2MjkyODgxMjgsImV4cCI6MTYzMDQ5NzcyOH0.JkTaQ8msWKVYzCir8TKgqHKbEj9cfQcTyZ364a6vjIQ",
+            "Content-Type": "application/json",
+        }
+    })
+    
+    let serverData = await serverRes.json()
+    console.log(serverData)
+    document.querySelector('form').reset()
+    alert('helt OK')
+    } catch(error){
+        alert(error)
+    }}
+
+
+
+// let editProd = document.querySelector('.row')
+
+
+// //for edit    
+// getMovieInfo =(id)=> { 
+//    fetch("https://striveschool-api.herokuapp.com/api/movies/comedy" + id, {
+//              method: "GET",
+//              headers: {
+//              "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGRjNmQyM2IzNTgxNzAwMTVjMjI3NTEiLCJpYXQiOjE2MjkyODgxMjgsImV4cCI6MTYzMDQ5NzcyOH0.JkTaQ8msWKVYzCir8TKgqHKbEj9cfQcTyZ364a6vjIQ",
+//              "Content-Type": "application/json",
+//          }
+//      })
+//      .then(response => response.json())
+//      .then(obj => {
+
+
+//                      console.log('ellooo', obj)
+//  //editProd.innerHTML = ``
+//                     `<div class="col-md-8"> <h3 id='title'>Edit product</h3>
+//             <div class="form-group">
+//               <input
+//                 id="name"
+//                 type="text"
+//                 name="txtName"
+//                 class="form-control"
+//                 placeholder="${obj.name}"
+                
+//               /> 
+//             </div>
+//             <div class="form-group">
+//               <input
+//                 id="price"
+//                 type="text"
+//                 name="txtEmail"
+//                 class="form-control"
+//                 placeholder="${obj.price}"
+                
+//               />
+//             </div>
+//             <div class="form-group">
+//               <input
+//                 id="brand"
+//                 type="text"
+//                 name="txtPhone"
+//                 class="form-control"
+//                 placeholder="${obj.brand}"
+                
+//               />
+//             </div>
+//             <div class="form-group">
+//               <input
+//                 id="picture"
+//                 type="text"
+//                 name="txtPhone"
+//                 class="form-control"
+//                 placeholder="${obj.imageUrl}"
+                
+//               />
+//             </div>
+
+//             <textarea
+//               id="description"
+//               name="txtMsg"
+//               class="form-control"
+//               placeholder="${obj.description}"
+//               style="width: 100%; height: 100px"
+              
+//             ></textarea>
+            
+//             <div id='delete' class="form-group mt-3">
+//             <input
+//               id="send_btn"
+//               type="submit"
+//               name="btnSubmit"
+//               class="btnContact  btn-success"
+//               value="Submit"
+//               onclick="postProduct(event)"
+//             />
+//           </div>
+          
+//           <input
+//               id="send_btn"
+//               type="submit"
+//               name="btnSubmit"
+//               class="btn   btn-warning"
+//               value="Delete"
+//               onclick="deleteItem(event)"
+//             />
+//           </div>`
+          
+          
+
+
+
+        //        }) }
+
+
+
+
+
+
+
+
+
+
+
+window.onload = () => {
+
+const params = new URLSearchParams(location.search)
+const id = params.get('id')
+
+
+
+//  if (id) {document.getElementById('title').innerText = "Edit movie";
+
+// const deleteRow = document.getElementById('delete').innerHTML += `  <button
+//                 type="submit"
+//                 class="btn btn-warning"
+//                 onclick="delete(event)"
+//                 value="Delete"
+//                 id='delete'>
+//                 <span>Delete</span>
+//                 </button>`}
+
+ //getMovieInfo(id)
+
+
+
+}
+    </script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
