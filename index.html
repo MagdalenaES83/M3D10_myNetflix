@@ -152,7 +152,7 @@
           <div class="carousel-inner">
             <div class="carousel-item active">
               <div class="movie-row">
-                <div class="row" id="comedy">
+                <div class="row" id="comedy1">
                   <!-- <div class="col-md-2-comedy">
                     <img class="movie-cover" src="" />
                   </div>
@@ -160,10 +160,10 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="carousel-item">
+             <div class="carousel-item">
               <div class="movie-row">
-                <div class="row">
-                  <div class="col-md-2-comedy">
+                <div class="row" id="comedy2">
+               <!--   <div class="col-md-2-comedy">
                     <img class="movie-cover" src="" />
                   </div>
                   <div class="col-md-2-comedy">
@@ -180,10 +180,10 @@
                   </div>
                   <div class="col-md-2-comedy">
                     <img class="movie-cover" src="" />
-                  </div>
+                -->  </div>
                 </div>
               </div>
-            </div> -->
+            </div> 
           </div>
           <button
             class="carousel-control-prev"
@@ -222,7 +222,7 @@
                     <img class="movie-cover" src="" />
                   </div>
                   <div class="col-md-2">
-                    <img class="movie-cover" src="." />
+                    <img class="movie-cover" src="" />
                   </div>
                   <div class="col-md-2">
                     <img class="movie-cover" src="" />
@@ -235,7 +235,7 @@
             </div>
             <div class="carousel-item">
               <div class="movie-row">
-                <div class="row">
+                <div class="row" id="horror2">
                   <div class="col-md-2">
                     <img class="movie-cover" src="" />
                   </div>
@@ -475,10 +475,13 @@
       };
 
       //<a class="btn btn-danger"  href="./backoffice.html?id=${prod._id}">Edit</a>
-      let card = document.getElementById("comedy");
-
+      
       displayComedy = (comedy) => {
-        card.innerHTML += comedy.map(
+let card = document.getElementById("comedy1");
+      let card2 = document.getElementById("comedy2");
+let carCom1 = comedy.slice(0,5)
+let carCom2 = comedy.slice(6,11)
+        card.innerHTML += carCom1.map(
           (prod) =>
             `    
             <div class="col-md-2">
@@ -487,6 +490,16 @@
                   
             `
         );
+        card2.innerHTML += carCom2.map(
+          (prod) =>
+            `    
+            <div class="col-md-2">
+                <a href="./backoffice.html?id=${prod._id}" ><img class="movie-cover-comedy" src="${prod.imageUrl}" /> </a>
+            </div>
+                  
+            `
+        );
+
       };
 
       fetchHorror = () => {
@@ -509,9 +522,19 @@
 
       //<a class="btn btn-danger"  href="./backoffice.html?id=${prod._id}">Edit</a>
       let cardhorror = document.getElementById("horror");
+      let cardhorror2 = document.getElementById("horror2");
 
       displayHorror = (horror) => {
-        cardhorror.innerHTML += horror.map(
+        const caruzela1 = horror.slice(0, 5);
+        const caruzela2 = horror.slice(6, 12);
+        cardhorror.innerHTML += caruzela1.map(
+          (prod) =>
+            `<div class="col-md-2">
+           <a href="./backoffice.html?id=${prod._id}" > <img class="movie-cover-horror" src="${prod.imageUrl}" /></a>
+            </div>                  
+            `
+        );
+        cardhorror2.innerHTML += caruzela2.map(
           (prod) =>
             `<div class="col-md-2">
            <a href="./backoffice.html?id=${prod._id}" > <img class="movie-cover-horror" src="${prod.imageUrl}" /></a>
